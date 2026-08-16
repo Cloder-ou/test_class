@@ -4,6 +4,7 @@
 import math
 import random
 import statistics
+import sys
 from fractions import Fraction
 
 
@@ -116,8 +117,135 @@ def university():
     print(f"極限 lim(x→0) sin(x)/x ≈ {limit:.6f}")
 
 
+def primary_interactive():
+    print("=" * 60)
+    print("【小學·互動】簡易四則運算器")
+    print("=" * 60)
+    a = float(input("請輸入第一個數字: "))
+    b = float(input("請輸入第二個數字: "))
+    op = input("請輸入運算子 (+ - * /): ")
+
+    if op == "+":
+        print(f"{a} + {b} = {a + b}")
+    elif op == "-":
+        print(f"{a} - {b} = {a - b}")
+    elif op == "*":
+        print(f"{a} * {b} = {a * b}")
+    elif op == "/":
+        if b == 0:
+            print("錯誤: 不能除以 0")
+        else:
+            print(f"{a} / {b} = {a / b}")
+    else:
+        print(f"不支援的運算子: {op}")
+
+
+def junior_interactive():
+    print("=" * 60)
+    print("【國中·互動】一元二次方程式求解 ax² + bx + c = 0")
+    print("=" * 60)
+    a = float(input("請輸入 a: "))
+    b = float(input("請輸入 b: "))
+    c = float(input("請輸入 c: "))
+
+    if a == 0:
+        print("這不是二次方程式 (a 不能為 0)")
+        return
+    d = b * b - 4 * a * c
+    print(f"判別式 D = {d}")
+    if d > 0:
+        x1 = (-b + math.sqrt(d)) / (2 * a)
+        x2 = (-b - math.sqrt(d)) / (2 * a)
+        print(f"兩相異實根: x = {x1:.4f}, {x2:.4f}")
+    elif d == 0:
+        x = -b / (2 * a)
+        print(f"重根: x = {x:.4f}")
+    else:
+        print("無實數解（有兩個共軛複數根）")
+
+
+def senior_interactive():
+    print("=" * 60)
+    print("【高中·互動】三角函數計算器")
+    print("=" * 60)
+    deg = float(input("請輸入角度（度）: "))
+    func = input("請選擇 sin / cos / tan: ")
+
+    rad = math.radians(deg)
+    if func == "sin":
+        print(f"sin({deg}°) = {math.sin(rad):.6f}")
+    elif func == "cos":
+        print(f"cos({deg}°) = {math.cos(rad):.6f}")
+    elif func == "tan":
+        if math.cos(rad) == 0:
+            print("tan 在該角度無定義（cos = 0）")
+        else:
+            print(f"tan({deg}°) = {math.tan(rad):.6f}")
+    else:
+        print(f"不支援的函式: {func}")
+
+
+def university_interactive():
+    print("=" * 60)
+    print("【大學·互動】2×2 矩陣計算（行列式、反矩陣、特徵值）")
+    print("=" * 60)
+    A = []
+    for i in range(2):
+        row = []
+        for j in range(2):
+            row.append(float(input(f"請輸入 A[{i + 1}][{j + 1}] = ")))
+        A.append(row)
+
+    print("您輸入的矩陣 A:")
+    for row in A:
+        print(" ", row)
+
+    det = A[0][0] * A[1][1] - A[0][1] * A[1][0]
+    print(f"行列式 det(A) = {det:.4f}")
+
+    if det == 0:
+        print("矩陣不可逆（奇異矩陣），無反矩陣")
+    else:
+        inv = [[A[1][1] / det, -A[0][1] / det],
+               [-A[1][0] / det, A[0][0] / det]]
+        print("反矩陣 A⁻¹:")
+        for row in inv:
+            print(" ", [round(v, 4) for v in row])
+
+    trace = A[0][0] + A[1][1]
+    disc = trace * trace - 4 * det
+    if disc >= 0:
+        s = math.sqrt(disc)
+        print(f"特徵值 λ = {(trace + s) / 2:.4f}, {(trace - s) / 2:.4f}")
+    else:
+        s = math.sqrt(-disc)
+        print(f"特徵值 λ = {trace / 2:.4f} ± {s / 2:.4f}i")
+
+
+def interactive_menu():
+    print("選擇互動範例:")
+    print("1) 小學：四則運算器")
+    print("2) 國中：一元二次方程式求解")
+    print("3) 高中：三角函數計算器")
+    print("4) 大學：2×2 矩陣計算")
+    choice = input("請輸入編號 (1-4): ")
+    if choice == "1":
+        primary_interactive()
+    elif choice == "2":
+        junior_interactive()
+    elif choice == "3":
+        senior_interactive()
+    elif choice == "4":
+        university_interactive()
+    else:
+        print("無效的編號")
+
+
 if __name__ == "__main__":
-    primary_school()
-    junior_high()
-    senior_high()
-    university()
+    if "--interactive" in sys.argv:
+        interactive_menu()
+    else:
+        primary_school()
+        junior_high()
+        senior_high()
+        university()
