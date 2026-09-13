@@ -2320,6 +2320,7 @@ dependencies = [
     { name = "jupyterlab-lsp" },
     { name = "python-dotenv" },
     { name = "python-telegram-bot" },
+    { name = "pytz" },
 ]
 
 [package.metadata]
@@ -2330,6 +2331,7 @@ requires-dist = [
     { name = "jupyterlab-lsp", specifier = ">=5.3.0" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "python-telegram-bot", specifier = ">=22.8" },
+    { name = "pytz", specifier = ">=2026.3.post1" },
 ]
 
 [[package]]
